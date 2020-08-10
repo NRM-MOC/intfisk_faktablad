@@ -9,7 +9,8 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 ```
 
 ```{r, fig.width= 3.5}
-figs <- read_csv("figpaths.csv")
-knitr::include_graphics(pull(figs, figpath))
+figs <- read_csv("figpaths.csv") %>% 
+  arrange(fig_order)
+knitr::include_graphics(pull(figs, fig_path))
 ```
 

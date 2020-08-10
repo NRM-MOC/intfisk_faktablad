@@ -32,7 +32,7 @@ hav_fig <- function(data, trend_start = 2002, first_year = 1980, last_year = 201
   colScale <- scale_colour_manual(values = myColors)
   fillScale <- scale_fill_manual(values = myColors)
   myShapes <- c(21, 21:25)
-  names(myShapes) <- levels(data$locality)
+  names(myShapes) <- c("Fjällbacka", "Fjällbacka, aug", "Fjällbacka, okt", "Holmöarna", "Kvädöfjärden", "Torhamn")
   shapeScale <- scale_shape_manual(values = myShapes)
   fontSize <- 22
   
@@ -58,9 +58,9 @@ hav_fig <- function(data, trend_start = 2002, first_year = 1980, last_year = 201
           panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(), 
           legend.position = "top",
-          axis.text.x = element_text(size = fontsize, angle = 90, vjust = 0.5),
-          axis.text.y = element_text(size = fontsize),
-          legend.text = element_text(size = fontsize),
+          axis.text.x = element_text(size = fontSize, angle = 90, vjust = 0.5),
+          axis.text.y = element_text(size = fontSize),
+          legend.text = element_text(size = fontSize),
           legend.title = element_blank(),
           plot.margin = unit(c(.5, 2, 0, .1), "cm")
     ) +
@@ -86,6 +86,7 @@ hav_tab <- function(data, trend_start = 2002){
            ci = map_chr(lm_fit, ~confint(.x)["year", ] %>% pretty_ci),
            p_value = map_dbl(lm_fit, ~summary(.x)[["coefficients"]]["year", "Pr(>|t|)"]),
            r2 = map_dbl(lm_fit, ~summary(.x)[["r.squared"]])) %>% 
+    ungroup() %>% 
     select(locality, trend, ci, p_value, r2)
 }
                          

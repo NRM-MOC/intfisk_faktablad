@@ -1,5 +1,5 @@
 library(tidyverse)
-source("functions.R")
+source("functions.R", encoding = "utf-8")
 
 ## Läs in data sammanställt av pred_data.R
 
@@ -36,14 +36,14 @@ all_figs <- fig_data %>%
   ungroup()
 
 # spara figurerna på disk
-walk2(all_figs$fig_path, fig_table$gg_fig, 
+walk2(all_figs$fig_path, all_figs$gg_fig, 
       ~ggsave(filename = .x, plot = .y, 
               width = 7.5, height = 7.5, 
-              axis_labels = "cm", scale = 2.6, type = "cairo")
+              units = "cm", scale = 2.6, type = "cairo")
 )
 
 # spara en lista över sökvägar och figurordning
-figlist %>% select(figpath, fig_order) %>% 
+all_figs %>% select(fig_path, fig_order) %>% 
   write_csv(path = "figpaths.csv")
 
 

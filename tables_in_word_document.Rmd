@@ -1,0 +1,19 @@
+---
+output:
+  word_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+```{r, results = "asis"}
+tables <- read_csv("tables.csv") %>% 
+  group_by(title) %>% 
+  nest() %>% 
+  mutate(table = map2(title, data, ~knitr::kable(.y, caption = .x, col.names = c("Lokal", "Årlig trend", "Konfidensintervall trend (95%)", "P-värde trend", "Förklaringsrad R^2"), digits = 3)))
+
+walk(tables$table, print)
+```
+
